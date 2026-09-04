@@ -1,11 +1,13 @@
 OnMainMenu = True
 
+transactions = []
+
 def mainMenu():
     global OnMainMenu
     if mainMenuSelection == "1":
         addTransaction()
     elif mainMenuSelection == "2":
-        print("Runs function: viewTransactions()")
+        viewTransactions()
     elif mainMenuSelection == "3":
         OnMainMenu = False
     else:
@@ -30,10 +32,18 @@ def addTransaction():
         except ValueError:
             print("Invalid amount. Please enter a valid number.")
 
-    print("Transaction added successfully!")
-    print("Description: " + transDescription)
-    print("Amount: " + str(transAmount))
-    
+    transactions.append({
+        "description": transDescription,
+        "amount": transAmount
+    })
+
+def viewTransactions():
+    if len(transactions) == 0:
+        print("No transactions found.")
+    else:
+        print("Transactions:")
+        for tx in transactions:
+            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]))
 
 while OnMainMenu == True:
     print("Please select an option from the menu:")
