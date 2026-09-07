@@ -20,6 +20,9 @@ def addTransaction():
     validTransAmount = False
     validTransType = False
     validTransDate = False
+    validTransCategory = False
+
+    TransCategories = ["food", "transport", "housing", "entertainment", "salary", "other"]
 
     while validTransDate == False:
         dateInput = input("Please enter the date of the transaction (YYYY-MM-DD):")
@@ -28,6 +31,13 @@ def addTransaction():
             validTransDate = True
         except ValueError:
             print("Invalid date format. Please try again.")
+
+    while validTransCategory == False:
+        transCategory = input("Please enter the category of the transaction (food, transport, housing, entertainment, salary, other):")
+        if transCategory.lower() in TransCategories:
+            validTransCategory = True
+        else:
+            print("Invalid category. Please try again.")
 
     while validTransDescription == False:
         transDescription = input("Please enter a short (20 characters or less) description of the transaction:")
@@ -56,7 +66,8 @@ def addTransaction():
         "description": transDescription,
         "amount": transAmount,
         "type": transType.lower(),
-        "date": transDate
+        "date": transDate,
+        "category": transCategory.lower()
     })
 
 def viewTransactions():
@@ -65,7 +76,7 @@ def viewTransactions():
     else:
         print("Transactions:")
         for tx in transactions:
-            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]) + ", Type: " + str(tx["type"]) + ", Date: " + str(tx["date"]))
+            print("Date: {}, Description: {}, Amount: {}, Type: {}, Category: {}".format(tx["date"], tx["description"], tx["amount"], tx["type"], tx["category"]))
 
 while OnMainMenu == True:
     print("Please select an option from the menu:")
