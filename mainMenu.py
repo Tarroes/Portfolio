@@ -16,6 +16,7 @@ def mainMenu():
 def addTransaction():
     ValidTransDescription = False
     ValidTransAmount = False
+    ValidTransType = False
 
     while ValidTransDescription == False:
         transDescription = input("Please enter a short (20 characters or less) description of the transaction:")
@@ -31,10 +32,19 @@ def addTransaction():
             ValidTransAmount = True
         except ValueError:
             print("Invalid amount. Please enter a valid number.")
+    
+    while ValidTransType == False:
+        transType = input("Please enter the type of transaction (Income/Expense):")
+        if transType.lower() == "income" or transType.lower() == "expense":
+            ValidTransType = True
+        else:
+            print("Invalid Type. Please enter either 'Income' or 'Expense'.")
+        
 
     transactions.append({
         "description": transDescription,
-        "amount": transAmount
+        "amount": transAmount,
+        "type": transType.lower()
     })
 
 def viewTransactions():
@@ -43,7 +53,7 @@ def viewTransactions():
     else:
         print("Transactions:")
         for tx in transactions:
-            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]))
+            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]) + ", Type: " + str(tx["type"]))
 
 while OnMainMenu == True:
     print("Please select an option from the menu:")
@@ -53,3 +63,4 @@ while OnMainMenu == True:
     print("3. Exit")
     mainMenuSelection = input("Enter your choice (1-3): ")
     mainMenu()
+
