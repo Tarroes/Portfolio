@@ -11,6 +11,8 @@ def mainMenu():
     elif mainMenuSelection == "2":
         viewTransactions()
     elif mainMenuSelection == "3":
+        viewSummary()
+    elif mainMenuSelection == "4":
         OnMainMenu = False
     else:
         print("Invalid selection. Please try again.")
@@ -70,6 +72,19 @@ def addTransaction():
         "category": transCategory.lower()
     })
 
+def viewSummary():
+    totalIncome = 0
+    totalExpense = 0
+    for tx in transactions:
+        if tx["type"] == "income":
+            totalIncome += tx["amount"]
+        elif tx["type"] == "expense":
+            totalExpense += tx["amount"]
+    print("Summary:")
+    print("Total Income: ${:.2f}".format(totalIncome))
+    print("Total Expense: ${:.2f}".format(totalExpense))
+    print("Net Balance: ${:.2f}".format(totalIncome - totalExpense))
+
 def viewTransactions():
     if len(transactions) == 0:
         print("No transactions found.")
@@ -83,6 +98,7 @@ while OnMainMenu == True:
     print("")
     print("1. Add Transaction")
     print("2. View Transactions")
-    print("3. Exit")
-    mainMenuSelection = input("Enter your choice (1-3): ")
+    print("3. View Summary")
+    print("4. Exit")
+    mainMenuSelection = input("Enter your choice (1-4): ")
     mainMenu()
