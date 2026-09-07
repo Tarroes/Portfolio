@@ -1,3 +1,5 @@
+from datetime import datetime
+
 OnMainMenu = True
 
 transactions = []
@@ -14,29 +16,38 @@ def mainMenu():
         print("Invalid selection. Please try again.")
 
 def addTransaction():
-    ValidTransDescription = False
-    ValidTransAmount = False
-    ValidTransType = False
+    validTransDescription = False
+    validTransAmount = False
+    validTransType = False
+    validTransDate = False
 
-    while ValidTransDescription == False:
+    while validTransDate == False:
+        dateInput = input("Please enter the date of the transaction (YYYY-MM-DD):")
+        try:
+            transDate = datetime.strptime(dateInput, "%Y-%m-%d").date()
+            validTransDate = True
+        except ValueError:
+            print("Invalid date format. Please try again.")
+
+    while validTransDescription == False:
         transDescription = input("Please enter a short (20 characters or less) description of the transaction:")
         if len(transDescription) > 20:
             print("Description is too long. Please try again.")
         else:
-            ValidTransDescription = True
+            validTransDescription = True
 
-    while ValidTransAmount == False:
+    while validTransAmount == False:
         transAmount = input("Please enter the amount of the transaction:")
         try:
             transAmount = float(transAmount)
-            ValidTransAmount = True
+            validTransAmount = True
         except ValueError:
             print("Invalid amount. Please enter a valid number.")
     
-    while ValidTransType == False:
+    while validTransType == False:
         transType = input("Please enter the type of transaction (Income/Expense):")
         if transType.lower() == "income" or transType.lower() == "expense":
-            ValidTransType = True
+            validTransType = True
         else:
             print("Invalid Type. Please enter either 'Income' or 'Expense'.")
         
@@ -44,7 +55,8 @@ def addTransaction():
     transactions.append({
         "description": transDescription,
         "amount": transAmount,
-        "type": transType.lower()
+        "type": transType.lower(),
+        "date": transDate
     })
 
 def viewTransactions():
@@ -53,7 +65,7 @@ def viewTransactions():
     else:
         print("Transactions:")
         for tx in transactions:
-            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]) + ", Type: " + str(tx["type"]))
+            print("Description: " + tx["description"] + ", Amount: " + str(tx["amount"]) + ", Type: " + str(tx["type"]) + ", Date: " + str(tx["date"]))
 
 while OnMainMenu == True:
     print("Please select an option from the menu:")
@@ -63,4 +75,3 @@ while OnMainMenu == True:
     print("3. Exit")
     mainMenuSelection = input("Enter your choice (1-3): ")
     mainMenu()
-
